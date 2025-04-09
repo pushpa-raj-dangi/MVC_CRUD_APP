@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="d-flex justify-content-between">
+<h5>Products</h5>
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
+</div>
+
+@if(TempData["Message"] != null)
+{
+    
+<div class="alert alert-primary mt-3" role="alert">
+    @TempData["Message"]
+</div>
+}
+
+
+<div class="row gap-4">
+
+    @if (Model.Any())
+    {
+        @foreach (var product in Model)
+        {
+            <div class="col-md shadow">
+                <div>
+
+                    <img class="w-100 h-50"
+                         src="@product.Image" />
+                    <div class="p-2">
+                        <h6>
+                            @product.Name
+                        </h6>
+                        <p>
+                            @product.CreateAt.ToString("M")
+                        </p>
+                        <p>
+                            @product.Description
+                        </p>
+                        <a class="btn btn-primary" asp-action="Update" asp-route-id="@product.Id">Edit</a>
+
+                        <button type="button" class="btn btn-danger" onclick="deleteProduct(@product.Id)">Delete</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h6 class="text-center">No products yet!</h6>
+    }
+
+
+</div>
+
+                    <script>
+
+
+                        function deleteProduct(id)
+                        {
+                            Swal.fire({
+                              title: "Are you sure?",
+                              text: "You won't be able to revert this!",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonColor: "#3085d6",
+                              cancelButtonColor: "#d33",
+                              confirmButtonText: "Yes, delete it!"
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+
+                                  $.ajax({
+                                url:`/api/products/${id}`,
+                                type:'DELETE',
+
+                                success: function(result){
+                                    Swal.fire({
+                                  title: "Deleted!",
+                                  text: result.message,
+                                  icon: "success"
+                                });
+
+                                    location.reload();
+                                },
+                                error:function(xhr){
+                                         Swal.fire({
+                                      title: "Deleted!",
+                                      text: result.message,
+                                      icon: "error"
+                                    });
+                                }
+                            })
+
+                               
+                              }
+                            });
+
+                            
+                        }
+                    </script>

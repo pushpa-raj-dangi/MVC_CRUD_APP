@@ -1,0 +1,32 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Create New Product";
+}
+
+<h5 class="mb-5"> Create New Product</h5>
+
+<form method="post">
+
+        <label class="form-label fw-bold" for="Name">Name</label>
+        <input class="form-control mb-2" asp-for="Name"/>
+        <span class="d-block text-danger" asp-validation-for="Name"></span>
+
+
+        <label class="form-label fw-bold" for="Description">Description</label>
+        <input class="form-control mb-2" asp-for="Description"/>
+    <span class="text-danger d-block" asp-validation-for="Description"></span>
+
+
+    <label class="form-label fw-bold" for="Image">Image</label>
+        <input class="form-control mb-4" asp-for="Image"/>
+
+        <button class="btn btn-primary" type="submit">
+            Create New
+        </button>
+        <a class="btn btn-success" asp-action="Index"> List</a>
+
+        
+
+
+</form>
+
